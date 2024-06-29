@@ -1,7 +1,7 @@
 package net.azeti.challenge.recipe.entrypoint.rest.api
 
 import jakarta.validation.Valid
-import net.azeti.challenge.recipe.entrypoint.rest.dto.LoginRequest
+import net.azeti.challenge.recipe.entrypoint.rest.dto.CreateUserRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.PostMapping
@@ -13,6 +13,6 @@ interface UserApi {
 
     @Secured("USER")
     @PostMapping
-    fun create(@RequestBody @Valid request: LoginRequest): ResponseEntity<Any>
+    fun create(@RequestBody @Valid request: CreateUserRequest): ResponseEntity<Any>
 
 }

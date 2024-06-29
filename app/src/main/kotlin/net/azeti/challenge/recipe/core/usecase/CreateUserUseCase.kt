@@ -11,8 +11,12 @@ class CreateUserUseCase(
     val userDataProvider : IUserDataProvider,
 ) {
 
-    fun execute(user: User) : User? {
-        val userToSave = user.copy(password = BCryptHasher.encodePassword(user.password))
+    fun execute(user: User) : User {
+        val userToSave = user.copy(
+            id = UUID.randomUUID(),
+            password = BCryptHasher.encodePassword(user.password),
+            active = true,
+            createdAt = Date())
         return userDataProvider.insert(userToSave)
     }
 

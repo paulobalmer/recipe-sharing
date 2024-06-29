@@ -1,7 +1,8 @@
-package net.azeti.challenge.recipe.dataprovider.rest.mapper
+package net.azeti.challenge.recipe.entrypoint.rest.mapper
 
 import net.azeti.challenge.recipe.core.domain.User
-import net.azeti.challenge.recipe.dataprovider.rest.entity.UserEntity
+import net.azeti.challenge.recipe.entrypoint.rest.dto.CreateUserRequest
+import net.azeti.challenge.recipe.entrypoint.rest.dto.CreateUserResponse
 import org.mapstruct.InjectionStrategy
 import org.mapstruct.Mapper
 import org.mapstruct.ReportingPolicy
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Component
 @Mapper(componentModel = "spring",
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
-interface UserEntityMapper {
+interface UserDtoMapper {
 
-    fun toDomain(entity: UserEntity) : User
+    fun toDomain(createUserRequest : CreateUserRequest) : User
 
-    fun toEntity(domain: User) : UserEntity
+    fun toCreateUserResponseDto(domain : User) : CreateUserResponse
 
 }

@@ -8,21 +8,23 @@ import java.util.UUID
 @Entity
 @Table(name = UserEntity.tableName, schema = UserEntity.schema)
 class UserEntity(
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     val id: UUID = UUID.randomUUID(),
 
     @Column(name = "name")
-    val name: String = "",
+    val name: String,
 
     @Column(name = "username")
-    val username: String = "",
+    val username: String,
 
     @Column(name = "password")
-    var password: String = "",
+    var password: String,
 
     @Column(name = "active")
-    val active: Boolean = false,
+    val active: Boolean = true,
 
     @Column(name = "created_at", length = 2)
     @Temporal(TemporalType.TIMESTAMP)
