@@ -58,7 +58,7 @@ class SecurityConfiguration(
     @Bean
     fun roleHierarchy(): RoleHierarchy {
         val hierarchy = RoleHierarchyImpl()
-        hierarchy.setHierarchy("ADMIN > EDITOR > CREATOR > READER")
+        hierarchy.setHierarchy("ADMIN > USER")
         return hierarchy
     }
 
