@@ -1,7 +1,7 @@
 CREATE TABLE public.users (
 	id uuid NOT NULL,
 	"name" varchar(100) NOT NULL,
-	login varchar(50) NOT NULL,
+	username varchar(50) NOT NULL,
 	"password" varchar(100) NOT NULL,
 	active bool NOT NULL,
 	created_at timestamp NOT NULL,

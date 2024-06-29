@@ -3,6 +3,10 @@ server:
   servlet:
     context-path: /api/v1
 
+application:
+  title: Recipe Sharing
+  version: 1.0.0
+
 spring:
   application:
     name: recipe-sharing
@@ -32,6 +36,9 @@ spring-doc:
     write-yaml: true
   swagger-ui:
     disable-swagger-default-url: true
+
+jwt:
+  secret: h9G+QWz3G7u0Rk5+Q3YzN9Kz+zN5R3F5zYQw3zN6Q1Z3Qk5yW3L0==
 
 management:
   server:
