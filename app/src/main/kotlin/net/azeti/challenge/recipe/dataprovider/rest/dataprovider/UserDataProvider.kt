@@ -11,6 +11,7 @@ class UserDataProvider(
     val userRepository : UserRepository,
     val mapper : UserEntityMapper
 ) : IUserDataProvider {
+
     override fun insert(user: User): User {
       return mapper.toDomain(userRepository.save(mapper.toEntity(user)))
     }
@@ -22,4 +23,5 @@ class UserDataProvider(
     override fun findUserByEmail(email: String): User? {
         return userRepository.findByEmail(email)?.let { mapper.toDomain(it) }
     }
+
 }

@@ -29,11 +29,11 @@ class UserEntity(
     @Column(name = "active")
     val active: Boolean = true,
 
-    @Column(name = "created_at", length = 2)
+    @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     var createdAt: Date = Date(),
 
-    @Column(name = "updated_at", length = 2)
+    @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     var updatedAt: Date? = null,
 

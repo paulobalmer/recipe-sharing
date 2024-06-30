@@ -3,7 +3,7 @@ package net.azeti.challenge.recipe.entrypoint.rest.dto.users
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 
-data class CreateUserResponse(
+data class UserDto(
     @JsonProperty("id") val id: UUID,
     @JsonProperty("username") val username: String,
     @JsonProperty("name") val name: String,
