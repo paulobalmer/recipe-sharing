@@ -1,4 +1,4 @@
-package net.azeti.challenge.recipe.entrypoint.rest.dto
+package net.azeti.challenge.recipe.entrypoint.rest.dto.auth
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

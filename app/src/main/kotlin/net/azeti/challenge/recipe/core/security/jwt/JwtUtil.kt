@@ -5,7 +5,7 @@ import com.nimbusds.jose.crypto.MACSigner
 import com.nimbusds.jose.crypto.MACVerifier
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
-import net.azeti.challenge.recipe.entrypoint.rest.dto.AuthResponse
+import net.azeti.challenge.recipe.entrypoint.rest.dto.auth.AuthResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

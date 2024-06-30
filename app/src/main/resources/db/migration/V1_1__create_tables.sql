@@ -33,3 +33,5 @@ CREATE TABLE public.ingredients (
 	CONSTRAINT ingredients_pkey PRIMARY KEY (id),
 	CONSTRAINT fk_ingredients_recipe FOREIGN KEY (recipe_id) REFERENCES public.recipes(id)
 );
+
+CREATE UNIQUE INDEX idx_users_username ON public.users (username);

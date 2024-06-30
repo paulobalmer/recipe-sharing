@@ -3,8 +3,8 @@ package net.azeti.challenge.recipe.entrypoint.rest.controller
 import net.azeti.challenge.recipe.core.security.CustomUserDetails
 import net.azeti.challenge.recipe.core.security.jwt.JwtUtil
 import net.azeti.challenge.recipe.entrypoint.rest.api.AuthenticationApi
-import net.azeti.challenge.recipe.entrypoint.rest.dto.AuthResponse
-import net.azeti.challenge.recipe.entrypoint.rest.dto.LoginRequest
+import net.azeti.challenge.recipe.entrypoint.rest.dto.auth.AuthResponse
+import net.azeti.challenge.recipe.entrypoint.rest.dto.auth.LoginRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager

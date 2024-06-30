@@ -1,8 +1,8 @@
 package net.azeti.challenge.recipe.entrypoint.rest.mapper
 
 import net.azeti.challenge.recipe.core.domain.User
-import net.azeti.challenge.recipe.entrypoint.rest.dto.CreateUserRequest
-import net.azeti.challenge.recipe.entrypoint.rest.dto.CreateUserResponse
+import net.azeti.challenge.recipe.entrypoint.rest.dto.users.CreateUserRequest
+import net.azeti.challenge.recipe.entrypoint.rest.dto.users.CreateUserResponse
 import org.mapstruct.InjectionStrategy
 import org.mapstruct.Mapper
 import org.mapstruct.ReportingPolicy

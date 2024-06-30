@@ -1,4 +1,4 @@
-package net.azeti.challenge.recipe.entrypoint.rest.dto
+package net.azeti.challenge.recipe.entrypoint.rest.dto.users
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*

@@ -1,7 +1,7 @@
 package net.azeti.challenge.recipe.entrypoint.rest.api
 
 import jakarta.validation.Valid
-import net.azeti.challenge.recipe.entrypoint.rest.dto.CreateUserRequest
+import net.azeti.challenge.recipe.entrypoint.rest.dto.users.CreateUserRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.PostMapping

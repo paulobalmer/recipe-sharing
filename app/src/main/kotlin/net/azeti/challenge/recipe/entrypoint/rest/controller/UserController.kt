@@ -2,7 +2,7 @@ package net.azeti.challenge.recipe.entrypoint.rest.controller
 
 import net.azeti.challenge.recipe.core.usecase.CreateUserUseCase
 import net.azeti.challenge.recipe.entrypoint.rest.api.UserApi
-import net.azeti.challenge.recipe.entrypoint.rest.dto.CreateUserRequest
+import net.azeti.challenge.recipe.entrypoint.rest.dto.users.CreateUserRequest
 import net.azeti.challenge.recipe.entrypoint.rest.mapper.UserDtoMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
