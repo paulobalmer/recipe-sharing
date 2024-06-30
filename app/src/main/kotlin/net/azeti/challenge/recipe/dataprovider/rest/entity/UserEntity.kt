@@ -20,6 +20,9 @@ class UserEntity(
     @Column(name = "username")
     val username: String,
 
+    @Column(name = "email")
+    val email: String,
+
     @Column(name = "password")
     var password: String,
 

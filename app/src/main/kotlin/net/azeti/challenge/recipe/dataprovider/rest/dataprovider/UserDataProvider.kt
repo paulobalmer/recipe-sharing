@@ -18,4 +18,8 @@ class UserDataProvider(
     override fun findUserByUsername(username: String): User? {
         return userRepository.findByUsername(username)?.let { mapper.toDomain(it) }
     }
+
+    override fun findUserByEmail(email: String): User? {
+        return userRepository.findByEmail(email)?.let { mapper.toDomain(it) }
+    }
 }

@@ -5,7 +5,7 @@ import net.azeti.challenge.recipe.core.domain.User
 import org.springframework.stereotype.Service
 
 @Service
-class LoadUserByEmailUseCase(
+class LoadUserByUsernameUseCase(
     val userDataProvider : IUserDataProvider,
 ) {
 

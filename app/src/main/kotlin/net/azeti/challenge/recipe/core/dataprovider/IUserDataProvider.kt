@@ -8,4 +8,6 @@ interface IUserDataProvider {
 
     fun findUserByUsername(username: String): User?
 
+    fun findUserByEmail(email: String): User?
+
 }

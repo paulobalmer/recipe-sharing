@@ -66,7 +66,7 @@ class SecurityConfiguration(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests {
             it.requestMatchers("/auth/token").permitAll()
-            it.requestMatchers(HttpMethod.GET, "/api/users/**")
+            it.requestMatchers(HttpMethod.POST, "/users").permitAll()
             it.anyRequest().authenticated()
         }
         http.formLogin { it.disable() }

@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import net.azeti.challenge.recipe.core.security.CustomUserDetails
-import net.azeti.challenge.recipe.core.usecase.LoadUserByEmailUseCase
+import net.azeti.challenge.recipe.core.usecase.LoadUserByUsernameUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import java.io.IOException
 
 @Component
-class JwtTokenFilter(val loadUserByEmailUseCase: LoadUserByEmailUseCase) : OncePerRequestFilter() {
+class JwtTokenFilter(val loadUserByEmailUseCase: LoadUserByUsernameUseCase) : OncePerRequestFilter() {
 
     @Autowired
     private lateinit var jwtUtil: JwtUtil

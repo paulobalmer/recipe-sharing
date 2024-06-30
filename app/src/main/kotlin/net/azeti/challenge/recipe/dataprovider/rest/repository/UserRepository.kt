@@ -8,4 +8,6 @@ interface UserRepository : CrudRepository<UserEntity?, UUID?> {
 
     fun findByUsername(username: String) : UserEntity?
 
+    fun findByEmail(email: String) : UserEntity?
+
 }

@@ -2,6 +2,7 @@ CREATE TABLE public.users (
 	id uuid NOT NULL,
 	"name" varchar(100) NOT NULL,
 	username varchar(50) NOT NULL,
+	email varchar(200) NOT NULL,
 	"password" varchar(100) NOT NULL,
 	active bool NOT NULL,
 	created_at timestamp NOT NULL,
@@ -35,3 +36,4 @@ CREATE TABLE public.ingredients (
 );
 
 CREATE UNIQUE INDEX idx_users_username ON public.users (username);
+CREATE UNIQUE INDEX idx_users_email ON public.users (email);

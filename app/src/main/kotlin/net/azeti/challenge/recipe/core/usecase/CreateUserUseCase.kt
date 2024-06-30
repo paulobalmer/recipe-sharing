@@ -13,9 +13,14 @@ class CreateUserUseCase(
 ) {
 
     fun execute(user: User) : User {
-        val existingUser = userDataProvider.findUserByUsername(user.username)
-        if (existingUser != null) {
+        val existingUserWithSameUsername = userDataProvider.findUserByUsername(user.username)
+        if (existingUserWithSameUsername != null) {
             throw BusinessException("User with username ${user.username} already exists")
+        }
+
+        val existingUserWithSameEmail = userDataProvider.findUserByEmail(user.email)
+        if (existingUserWithSameEmail != null) {
+            throw BusinessException("User with email ${user.email} already exists")
         }
 
         val userToSave = user.copy(
