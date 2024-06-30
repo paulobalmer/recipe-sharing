@@ -1,5 +1,6 @@
 package net.azeti.challenge.recipe.configuration
 
+import jakarta.servlet.http.HttpServletResponse
 import net.azeti.challenge.recipe.core.security.UserDetailsServiceImpl
 import net.azeti.challenge.recipe.core.security.jwt.JwtTokenFilter
 import org.springframework.beans.factory.annotation.Autowired

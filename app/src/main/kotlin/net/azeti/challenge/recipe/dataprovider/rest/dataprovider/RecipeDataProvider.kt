@@ -5,12 +5,16 @@ import net.azeti.challenge.recipe.core.dataprovider.IRecipeDataProvider
 import net.azeti.challenge.recipe.core.domain.Ingredient
 import net.azeti.challenge.recipe.core.domain.Recipe
 import net.azeti.challenge.recipe.dataprovider.rest.entity.IngredientEntity
+import net.azeti.challenge.recipe.dataprovider.rest.entity.RecipeEntity
 import net.azeti.challenge.recipe.dataprovider.rest.mapper.RecipeEntityMapper
 import net.azeti.challenge.recipe.dataprovider.rest.repository.IngredientRepository
 import net.azeti.challenge.recipe.dataprovider.rest.repository.RecipeRepository
 import net.azeti.challenge.recipe.dataprovider.rest.repository.UserRepository
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.BusinessException
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.ObjectNotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.collections.ArrayList
@@ -59,6 +63,18 @@ class RecipeDataProvider(
         val recipe = recipeRepository.findWithIngredientsById(id)
             ?: throw ObjectNotFoundException("Recipe not found with provided id")
         return recipeMapper.toDomain(recipe)
+    }
+
+    override fun search(pageable: Pageable): Page<Recipe> {
+        val pageWithEntities : Page<RecipeEntity> = recipeRepository.findAll(pageable)
+        val recipes: List<Recipe> = recipeMapper.toDomain(pageWithEntities.content)
+        return PageImpl(recipes, pageWithEntities.pageable, pageWithEntities.totalElements)
+    }
+
+    override fun search(username: String, pageable: Pageable): Page<Recipe> {
+        val pageWithEntities : Page<RecipeEntity> = recipeRepository.findByUsernameContains(username, pageable)
+        val recipes: List<Recipe> = recipeMapper.toDomain(pageWithEntities.content)
+        return PageImpl(recipes, pageWithEntities.pageable, pageWithEntities.totalElements)
     }
 
 }

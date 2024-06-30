@@ -7,6 +7,7 @@ import net.azeti.challenge.recipe.dataprovider.rest.entity.RecipeEntity
 import org.mapstruct.*
 import org.springframework.stereotype.Component
 
+
 @Component
 @Mapper(componentModel = "spring",
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
@@ -22,6 +23,8 @@ interface RecipeEntityMapper {
     @Named("toIngredientDomain")
     @Mapping(target = "recipe", ignore = true)
     fun toIngredientDomain(ingredient: IngredientEntity): Ingredient
+
+    fun toDomain(content: List<RecipeEntity>): List<Recipe>
 
 
 

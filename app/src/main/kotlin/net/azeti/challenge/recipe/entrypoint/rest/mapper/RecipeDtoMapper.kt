@@ -18,4 +18,6 @@ interface RecipeDtoMapper {
 
     fun toDto(domain: Recipe): RecipeDto
 
+    fun toDto(domain: List<Recipe>): List<RecipeDto>
+
 }

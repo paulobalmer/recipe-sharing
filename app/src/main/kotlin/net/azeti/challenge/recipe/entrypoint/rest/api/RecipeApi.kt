@@ -2,14 +2,13 @@ package net.azeti.challenge.recipe.entrypoint.rest.api
 
 import jakarta.validation.Valid
 import net.azeti.challenge.recipe.entrypoint.rest.dto.recipes.CreateRecipeRequestDto
+import net.azeti.challenge.recipe.entrypoint.rest.dto.recipes.RecipeDto
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.core.Authentication
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RequestMapping(path = ["/recipes"])
@@ -18,6 +17,12 @@ interface RecipeApi {
     @Secured("USER")
     @PostMapping
     fun create(@RequestBody @Valid request: CreateRecipeRequestDto, authentication: Authentication): ResponseEntity<Any>
+
+    @Secured("USER")
+    @GetMapping
+    fun listAll(@RequestParam(required = false) username: String?,
+                pageable: Pageable
+    ): ResponseEntity<Page<RecipeDto>>
 
     @Secured("USER")
     @GetMapping(value = ["/{id}"])

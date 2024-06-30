@@ -1,6 +1,7 @@
 package net.azeti.challenge.recipe.entrypoint.rest.errorhandler
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
+import jakarta.servlet.http.HttpServletRequest
 import net.azeti.challenge.recipe.entrypoint.rest.dto.errors.StandardError
 import net.azeti.challenge.recipe.entrypoint.rest.dto.errors.ValidationError
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.AuthorizationException
@@ -14,6 +15,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 
 @ControllerAdvice
 class ControllerExceptionHandler {
@@ -67,5 +69,15 @@ class ControllerExceptionHandler {
 
         val err = StandardError(HttpStatus.BAD_REQUEST.value(), errorMessage, System.currentTimeMillis())
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err)
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException::class)
+    fun handleMethodArgumentTypeMismatch(
+        ex: MethodArgumentTypeMismatchException,
+        request: HttpServletRequest
+    ): ResponseEntity<StandardError> {
+        val err = StandardError(HttpStatus.BAD_REQUEST.value(), "Provided value is invalid for this field", System.currentTimeMillis())
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err)
+
     }
 }
