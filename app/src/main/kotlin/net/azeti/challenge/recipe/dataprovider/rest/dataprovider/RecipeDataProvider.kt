@@ -10,6 +10,7 @@ import net.azeti.challenge.recipe.dataprovider.rest.repository.IngredientReposit
 import net.azeti.challenge.recipe.dataprovider.rest.repository.RecipeRepository
 import net.azeti.challenge.recipe.dataprovider.rest.repository.UserRepository
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.BusinessException
+import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.ObjectNotFoundException
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.collections.ArrayList
@@ -52,6 +53,12 @@ class RecipeDataProvider(
       }
       savedRecipe.ingredients = savedIngredients
       return recipeMapper.toDomain(savedRecipe)
+    }
+
+    override fun getById(id: UUID): Recipe {
+        val recipe = recipeRepository.findWithIngredientsById(id)
+            ?: throw ObjectNotFoundException("Recipe not found with provided id")
+        return recipeMapper.toDomain(recipe)
     }
 
 }
