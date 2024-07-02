@@ -1,0 +1,22 @@
+version: "3.5"
+
+services:
+  postgresql-recipe-full:
+    build: ./docker-postgresql
+    container_name: postgresql-recipe-full
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=StrongAdminP@ssw0rd
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    networks:
+      azetinet:
+        ipv4_address: 10.8.0.3
+
+networks:
+  azetinet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.8.0.0/16
