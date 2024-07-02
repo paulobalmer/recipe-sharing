@@ -1,9 +1,6 @@
 package net.azeti.challenge.recipe.entrypoint.rest.controller
 
-import net.azeti.challenge.recipe.core.usecase.CreateRecipeUseCase
-import net.azeti.challenge.recipe.core.usecase.LoadRecipeByIdUseCase
-import net.azeti.challenge.recipe.core.usecase.LoadUserByUsernameUseCase
-import net.azeti.challenge.recipe.core.usecase.SearchRecipeUseCase
+import net.azeti.challenge.recipe.core.usecase.*
 import net.azeti.challenge.recipe.entrypoint.rest.api.RecipeApi
 import net.azeti.challenge.recipe.entrypoint.rest.dto.recipes.CreateRecipeRequestDto
 import net.azeti.challenge.recipe.entrypoint.rest.dto.recipes.RecipeDto
@@ -19,6 +16,8 @@ import java.util.*
 @RestController
 class RecipeController(
     val createRecipeUseCase: CreateRecipeUseCase,
+    val updateRecipeUseCase: UpdateRecipeUseCase,
+    val deleteRecipeUseCase: DeleteRecipeUseCase,
     val loadRecipeByIdUseCase: LoadRecipeByIdUseCase,
     val loadUserByUsernameUseCase: LoadUserByUsernameUseCase,
     val searchRecipeUseCase: SearchRecipeUseCase,
@@ -30,6 +29,20 @@ class RecipeController(
             ?: throw BusinessException("User info not found")
         val recipe = mapper.toDomain(request)
         return ResponseEntity.ok(mapper.toDto(createRecipeUseCase.execute(recipe, loggedUser)))
+    }
+
+    override fun update(id: UUID, request: CreateRecipeRequestDto, authentication: Authentication): ResponseEntity<Any> {
+        val loggedUser = loadUserByUsernameUseCase.execute(authentication.name)
+            ?: throw BusinessException("User info not found")
+        val recipe = mapper.toDomain(request).copy(id = id)
+        return ResponseEntity.ok(mapper.toDto(updateRecipeUseCase.execute(recipe, loggedUser)))
+    }
+
+    override fun delete(id: UUID, authentication: Authentication): ResponseEntity<Any> {
+        val loggedUser = loadUserByUsernameUseCase.execute(authentication.name)
+            ?: throw BusinessException("User info not found")
+        deleteRecipeUseCase.execute(id, loggedUser)
+        return ResponseEntity.noContent().build()
     }
 
     override fun listAll(username: String?, title: String?, pageable: Pageable): ResponseEntity<Page<RecipeDto>> {

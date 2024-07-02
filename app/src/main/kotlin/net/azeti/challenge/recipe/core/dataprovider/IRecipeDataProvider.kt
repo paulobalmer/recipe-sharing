@@ -10,8 +10,10 @@ interface IRecipeDataProvider {
 
     fun save(recipe: Recipe, ingredients : List<Ingredient>): Recipe
 
-    fun getById(id: UUID): Recipe
+    fun getById(id: UUID): Recipe?
 
     fun search(username : String?, title: String?, pageable: Pageable): Page<Recipe>
+
+    fun delete(id: UUID)
 
 }

@@ -26,6 +26,14 @@ interface RecipeApi {
     ): ResponseEntity<Page<RecipeDto>>
 
     @Secured("USER")
+    @PutMapping(value = ["/{id}"])
+    fun update(@PathVariable id: UUID, @RequestBody @Valid request: CreateRecipeRequestDto, authentication: Authentication): ResponseEntity<Any>
+
+    @Secured("USER")
+    @DeleteMapping(value = ["/{id}"])
+    fun delete(@PathVariable id: UUID, authentication: Authentication): ResponseEntity<Any>
+
+    @Secured("USER")
     @GetMapping(value = ["/{id}"])
     fun getById(@PathVariable id : UUID): ResponseEntity<Any>
 

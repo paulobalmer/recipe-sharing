@@ -91,4 +91,14 @@ class RecipeDataProvider(
         return PageImpl(recipes, pageWithEntities.pageable, pageWithEntities.totalElements)
     }
 
+    @Transactional
+    override fun delete(id: UUID) {
+        val ingredientsToRemove = ingredientRepository.listByRecipeId(id)
+        for (ingredient in ingredientsToRemove) {
+            ingredientRepository.delete(ingredient)
+        }
+        val recipeToRemove = recipeRepository.findById(id)
+        recipeRepository.delete(recipeToRemove.get())
+    }
+
 }
