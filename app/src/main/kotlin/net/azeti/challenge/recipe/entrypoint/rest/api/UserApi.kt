@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping(path = ["/users"])
 interface UserApi {
 
-    @Secured("USER")
     @PostMapping
     fun create(@RequestBody @Valid request: CreateUserRequestDto): ResponseEntity<Any>
 

@@ -21,6 +21,7 @@ interface RecipeApi {
     @Secured("USER")
     @GetMapping
     fun listAll(@RequestParam(required = false) username: String?,
+                @RequestParam(required = false) title: String?,
                 pageable: Pageable
     ): ResponseEntity<Page<RecipeDto>>
 

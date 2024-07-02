@@ -12,8 +12,6 @@ interface IRecipeDataProvider {
 
     fun getById(id: UUID): Recipe
 
-    fun search(pageable: Pageable): Page<Recipe>
-
-    fun search(username : String, pageable: Pageable): Page<Recipe>
+    fun search(username : String?, title: String?, pageable: Pageable): Page<Recipe>
 
 }

@@ -32,12 +32,8 @@ class RecipeController(
         return ResponseEntity.ok(mapper.toDto(createRecipeUseCase.execute(recipe, loggedUser)))
     }
 
-    override fun listAll(username: String?, pageable: Pageable): ResponseEntity<Page<RecipeDto>> {
-        val recipes = if (username != null) {
-            searchRecipeUseCase.executeByUsername(username, pageable)
-        } else {
-            searchRecipeUseCase.execute(pageable)
-        }
+    override fun listAll(username: String?, title: String?, pageable: Pageable): ResponseEntity<Page<RecipeDto>> {
+        val recipes = searchRecipeUseCase.execute(username, title, pageable)
         return ResponseEntity.ok(recipes.map { mapper.toDto(it) })
     }
 

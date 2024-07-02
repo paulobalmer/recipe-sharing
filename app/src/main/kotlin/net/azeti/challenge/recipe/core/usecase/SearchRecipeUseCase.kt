@@ -11,12 +11,8 @@ class SearchRecipeUseCase(
     val recipeDataProvider : IRecipeDataProvider,
 ) {
 
-    fun execute(pageable: Pageable) : Page<Recipe> {
-        return recipeDataProvider.search(pageable)
-    }
-
-    fun executeByUsername(username: String, pageable: Pageable) : Page<Recipe> {
-        return recipeDataProvider.search(username, pageable)
+    fun execute(username: String?, title : String?, pageable: Pageable) : Page<Recipe> {
+        return recipeDataProvider.search(username, title, pageable)
     }
 
 }
