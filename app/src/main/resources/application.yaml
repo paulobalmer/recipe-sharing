@@ -37,6 +37,70 @@ spring-doc:
   swagger-ui:
     disable-swagger-default-url: true
 
+recipe:
+  weather:
+    api:
+      endpoint: https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline
+      location: Berlim
+      units: metric
+      key: ${env.WEATHER_API_KEY}
+  cold-recipes:
+    temperature: 2
+    keywords:
+      - Freezing
+      - Chilling
+      - Ice
+      - Icing
+      - Frosting
+      - Refrigerating
+      - Cooling
+      - Ice-Creaming
+      - Frosting
+      - Sorbet
+      - Gelato
+      - Slushing
+      - Cryo-Blending
+      - Ice-Crushing
+      - Shaving Ice
+      - Slushie-Making
+      - Smoothie-Making
+      - Freezer-Storing
+      - Cold
+      - Gelation
+      - Ice-Packing
+      - Frothing
+      - Popsicle-Making
+      - Freezer-Baking
+  hot-recipes:
+    temperature: 28
+    keywords:
+      - Roasting
+      - Baking
+      - Grilling
+      - Searing
+      - Frying
+      - Boiling
+      - Simmering
+      - Broiling
+      - Steaming
+      - Toasting
+      - Sautéing
+      - Braising
+      - Poaching
+      - Blanching
+      - Caramelizing
+      - Crisping
+      - Slow-Cooking
+      - Braising
+      - Charbroiling
+      - Barbecuing
+      - Griddling
+      - Spit-Roasting
+      - Deep-Frying
+      - Stir-Frying
+      - Scorching
+      - Pressure-Cooking
+
 jwt:
   secret: h9G+QWz3G7u0Rk5+Q3YzN9Kz+zN5R3F5zYQw3zN6Q1Z3Qk5yW3L0==
 

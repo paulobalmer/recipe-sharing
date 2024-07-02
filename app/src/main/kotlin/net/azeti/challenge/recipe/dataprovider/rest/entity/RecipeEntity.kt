@@ -1,12 +1,14 @@
 package net.azeti.challenge.recipe.dataprovider.rest.entity
 
 import jakarta.persistence.*
+import lombok.Data
 import java.io.Serializable
 import java.util.Date
 import java.util.UUID
 
 @Entity
 @Table(name = RecipeEntity.tableName, schema = RecipeEntity.schema)
+@Data
 class RecipeEntity : Serializable {
 
     @Id

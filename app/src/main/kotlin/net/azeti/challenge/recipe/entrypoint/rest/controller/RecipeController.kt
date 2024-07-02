@@ -21,8 +21,11 @@ class RecipeController(
     val loadRecipeByIdUseCase: LoadRecipeByIdUseCase,
     val loadUserByUsernameUseCase: LoadUserByUsernameUseCase,
     val searchRecipeUseCase: SearchRecipeUseCase,
-    val mapper : RecipeDtoMapper,
+    val recipeRecommendationUseCase: RecipeRecommendationUseCase,
+    val mapper : RecipeDtoMapper
 ) : RecipeApi {
+
+
 
     override fun create(request: CreateRecipeRequestDto,  authentication: Authentication): ResponseEntity<Any> {
         val loggedUser = loadUserByUsernameUseCase.execute(authentication.name)
@@ -52,6 +55,10 @@ class RecipeController(
 
     override fun getById(id: UUID): ResponseEntity<Any> {
         return ResponseEntity.ok(mapper.toDto(loadRecipeByIdUseCase.execute(id)))
+    }
+
+    override fun getRecommendation(t1: Double?, t2: Double?): ResponseEntity<Any> {
+        return ResponseEntity.ok(mapper.toDto(recipeRecommendationUseCase.execute(t1, t2)))
     }
 
 

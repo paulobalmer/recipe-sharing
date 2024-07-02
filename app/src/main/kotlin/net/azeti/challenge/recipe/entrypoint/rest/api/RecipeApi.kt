@@ -37,4 +37,11 @@ interface RecipeApi {
     @GetMapping(value = ["/{id}"])
     fun getById(@PathVariable id : UUID): ResponseEntity<Any>
 
+    @Secured("USER")
+    @GetMapping("/recommendation")
+    fun getRecommendation(
+        @RequestParam(required = false) t1: Double?,
+        @RequestParam(required = false) t2: Double?
+    ): ResponseEntity<Any>
+
 }

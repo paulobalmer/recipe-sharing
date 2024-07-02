@@ -64,6 +64,20 @@ class RecipeDataProvider(
       return recipeMapper.toDomain(savedRecipe)
     }
 
+    @Transactional
+    override fun delete(id: UUID) {
+        val ingredientsToRemove = ingredientRepository.listByRecipeId(id)
+        for (ingredient in ingredientsToRemove) {
+            ingredientRepository.delete(ingredient)
+        }
+        val recipeToRemove = recipeRepository.findById(id)
+        recipeRepository.delete(recipeToRemove.get())
+    }
+
+    override fun listAll(): MutableIterable<RecipeEntity?> {
+        return recipeRepository.findAll()
+    }
+
     override fun getById(id: UUID): Recipe {
         val recipe = recipeRepository.findWithIngredientsById(id)
             ?: throw ObjectNotFoundException("Recipe not found with provided id")
@@ -91,14 +105,8 @@ class RecipeDataProvider(
         return PageImpl(recipes, pageWithEntities.pageable, pageWithEntities.totalElements)
     }
 
-    @Transactional
-    override fun delete(id: UUID) {
-        val ingredientsToRemove = ingredientRepository.listByRecipeId(id)
-        for (ingredient in ingredientsToRemove) {
-            ingredientRepository.delete(ingredient)
-        }
-        val recipeToRemove = recipeRepository.findById(id)
-        recipeRepository.delete(recipeToRemove.get())
-    }
+
+
+
 
 }
