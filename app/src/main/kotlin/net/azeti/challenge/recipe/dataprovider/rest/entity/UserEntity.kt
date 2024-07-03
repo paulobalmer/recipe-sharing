@@ -14,7 +14,7 @@ class UserEntity(
     @Column(name = "id")
     val id: UUID = UUID.randomUUID(),
 
-    @Column(name = "name")
+    @Column(name = "`name`")
     val name: String,
 
     @Column(name = "username")
@@ -23,7 +23,7 @@ class UserEntity(
     @Column(name = "email")
     val email: String,
 
-    @Column(name = "password")
+    @Column(name = "`password`")
     var password: String,
 
     @Column(name = "active")

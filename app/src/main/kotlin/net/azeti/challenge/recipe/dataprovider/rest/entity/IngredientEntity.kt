@@ -20,14 +20,14 @@ class IngredientEntity : Serializable {
     @JoinColumn(name = "recipe_id")
     lateinit var recipe: RecipeEntity
 
-    @Column(name = "value")
+    @Column(name = "`value`")
     lateinit var value: BigDecimal
 
     @Column(name = "unit")
     @Enumerated(EnumType.STRING)
     lateinit var unit: IngredientUnitEnum
 
-    @Column(name = "type")
+    @Column(name = "`type`")
     lateinit var type: String
 
     @Column(name = "created_at")

@@ -1,0 +1,76 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+
+recipe:
+  weather:
+    api:
+      endpoint: https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline
+      location: Berlim
+      units: metric
+      key: ${env.WEATHER_API_KEY}
+  cold-recipes:
+    temperature: 2
+    keywords:
+      - Freezing
+      - Chilling
+      - Ice
+      - Icing
+      - Frosting
+      - Refrigerating
+      - Cooling
+      - Ice-Creaming
+      - Frosting
+      - Sorbet
+      - Gelato
+      - Slushing
+      - Cryo-Blending
+      - Ice-Crushing
+      - Shaving Ice
+      - Slushie-Making
+      - Smoothie-Making
+      - Freezer-Storing
+      - Cold
+      - Gelation
+      - Ice-Packing
+      - Frothing
+      - Popsicle-Making
+      - Freezer-Baking
+  hot-recipes:
+    temperature: 28
+    keywords:
+      - Roasting
+      - Baking
+      - Grilling
+      - Searing
+      - Frying
+      - Boiling
+      - Simmering
+      - Broiling
+      - Steaming
+      - Toasting
+      - Sautéing
+      - Braising
+      - Poaching
+      - Blanching
+      - Caramelizing
+      - Crisping
+      - Slow-Cooking
+      - Braising
+      - Charbroiling
+      - Barbecuing
+      - Griddling
+      - Spit-Roasting
+      - Deep-Frying
+      - Stir-Frying
+      - Scorching
+      - Pressure-Cooking

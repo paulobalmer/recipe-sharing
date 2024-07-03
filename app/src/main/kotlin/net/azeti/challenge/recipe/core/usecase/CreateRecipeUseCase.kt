@@ -12,7 +12,12 @@ class CreateRecipeUseCase(
     val recipeDataProvider : IRecipeDataProvider,
 ) {
 
-    fun execute(recipe: Recipe, user: User) : Recipe {
+    fun execute(recipe: Recipe, user: User?) : Recipe {
+
+        if (user == null) {
+            throw BusinessException("User must not be null")
+        }
+
         val recipeId = UUID.randomUUID()
 
         val recipeToSave = recipe.copy(
