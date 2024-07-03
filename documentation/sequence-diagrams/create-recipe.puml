@@ -1,0 +1,13 @@
+@startuml
+actor User
+participant "RecipeController" as RecipeController
+participant "CreateRecipeUseCase" as RecipeService
+participant "RecipeDataProvider" as IRecipeDataProvider
+
+User -> RecipeController: POST /recipes (CreateRecipeRequestDto)
+RecipeController -> RecipeService: execute(recipe, loggedUser)
+RecipeService -> IRecipeDataProvider: save(recipeToSave, ingredients)
+IRecipeDataProvider -> RecipeService: Recipe
+RecipeService --> RecipeController: RecipeDto
+RecipeController --> User: 201 Created (RecipeDto)
+@enduml

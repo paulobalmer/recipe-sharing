@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.metadata.name }}
+  labels:
+    scope: {{ .Values.metadata.labels.scope }}
+    app: {{ .Values.metadata.labels.app }}
+    name: {{ .Values.metadata.labels.name }}
+    role: {{ .Values.metadata.labels.role }}
+    environment:  {{ .Values.metadata.labels.environment }}
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.metadata.labels.app }}
+  template:
+    metadata:
+      labels:
+        scope: {{ .Values.metadata.labels.scope }}
+        app: {{ .Values.metadata.labels.app }}
+        name: {{ .Values.metadata.labels.name }}
+        role: {{ .Values.metadata.labels.role }}
+        environment:  {{ .Values.metadata.labels.environment }}
+    spec:
+      restartPolicy: {{ .Values.spec.template.spec.restartPolicy }}
+      imagePullSecrets:
+        - name: {{ .Values.spec.template.spec.imagePullSecrets.name }}
+      containers:
+        - name: {{ .Values.container.name }}
+          image: "{{ .Values.container.image.repository }}:{{ .Chart.AppVersion }}"
+          command: ["java", "-jar", "app.jar"]
+          imagePullPolicy: {{ .Values.container.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.container.ports.server.containerPort }}
+              name: {{ .Values.container.ports.server.name }}
+            - containerPort: {{ .Values.container.ports.actuator.containerPort }}
+              name: {{ .Values.container.ports.actuator.name }}
+          resources:
+            limits:
+              cpu: {{ .Values.container.resources.limits.cpu}}
+              memory: {{ .Values.container.resources.limits.memory | quote }}
+            requests:
+              cpu: {{ .Values.container.resources.requests.cpu | quote }}
+              memory: {{ .Values.container.resources.requests.memory | quote }}
+          env:
+            - name: JAVA_OPTS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.configmap.metadata.name }}
+                  key: java-opts
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-sharing-secret
+                  key: db-host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-sharing-secret
+                  key: db-port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-sharing-secret
+                  key: db-name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-sharing-secret
+                  key: db-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-sharing-secret
+                  key: db-password
+            - name: WEATHER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: recipe-sharing-secret
+                  key: weather-api-key
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.container.livenessProbe.httpGet.path }}
+              port: {{ .Values.container.livenessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.container.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.container.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.container.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.container.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.container.livenessProbe.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.container.readinessProbe.httpGet.path }}
+              port: {{ .Values.container.readinessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.container.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.container.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.container.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.container.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.container.readinessProbe.failureThreshold }}

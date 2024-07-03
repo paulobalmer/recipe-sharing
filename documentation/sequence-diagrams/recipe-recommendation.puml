@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant "RecipeController" as RecipeController
+participant "RecipeRecommendationUseCase" as RecipeRecommendationUseCase
+participant "WeatherApi" as WeatherApi
+participant "RecipeDataProvider" as RecipeDataProvider
+
+User -> RecipeController: GET /recipes/recommendation
+RecipeController -> RecipeRecommendationUseCase: execute(t1, t2)
+RecipeRecommendationUseCase -> WeatherApi: restTemplate call
+WeatherApi -> RecipeRecommendationUseCase: current temperature
+RecipeRecommendationUseCase -> RecipeDataProvider: listAll()
+RecipeDataProvider -> RecipeRecommendationUseCase: List<Recipe>
+RecipeRecommendationUseCase -> RecipeRecommendationUseCase: Filter Recipes acording temperature
+RecipeRecommendationUseCase --> RecipeController: RecipeDto
+RecipeController --> User: 200 OK (RecipeDto)
+@enduml

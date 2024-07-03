@@ -1,0 +1,15 @@
+@startuml
+actor User
+participant "RecipeController" as RecipeController
+participant "UpdateRecipeUseCase" as UpdateRecipeUseCase
+participant "LoadUserByUsernameUseCase" as LoadUserByUsernameUseCase
+participant "IRecipeDataProvider" as RecipeDataProvider
+
+User -> RecipeController: PUT /recipes/{id} (CreateRecipeRequestDto)
+RecipeController -> LoadUserByUsernameUseCase: execute(authentication.name)
+RecipeController -> UpdateRecipeUseCase: execute(recipe, loggedUser)
+UpdateRecipeUseCase -> RecipeDataProvider: save(recipe, ingredients)
+RecipeDataProvider -> UpdateRecipeUseCase: Recipe
+UpdateRecipeUseCase --> RecipeController: RecipeDto
+RecipeController --> User: 200 OK (RecipeDto)
+@enduml

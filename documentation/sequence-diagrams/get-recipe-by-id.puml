@@ -1,0 +1,13 @@
+@startuml
+actor User
+participant "RecipeController" as RecipeController
+participant "LoadRecipeByIdUseCase" as LoadRecipeByIdUseCase
+participant "IRecipeDataProvider" as IRecipeDataProvider
+
+User -> RecipeController: GET /recipes/{id}
+RecipeController -> LoadRecipeByIdUseCase: execute(id)
+LoadRecipeByIdUseCase -> IRecipeDataProvider: getById(id)
+IRecipeDataProvider -> LoadRecipeByIdUseCase: Recipe
+LoadRecipeByIdUseCase --> RecipeController: RecipeDto
+RecipeController --> User: 200 OK (RecipeDto)
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+package entity {
+
+    class IngredientEntity {
+        UUID id
+        RecipeEntity recipe
+        BigDecimal value
+        IngredientUnitEnum unit
+        String type
+        Date createdAt
+        Date updatedAt
+        --
+        +IngredientEntity()
+        +IngredientEntity(id: UUID, recipe: RecipeEntity, value: BigDecimal, unit: IngredientUnitEnum, type: String, createdAt: Date, updatedAt: Date?)
+    }
+
+    class RecipeEntity {
+        UUID id
+        String title
+        UserEntity user
+        String description
+        String instructions
+        String servings
+        List<IngredientEntity> ingredients
+        Date createdAt
+        Date updatedAt
+        --
+        +RecipeEntity()
+        +RecipeEntity(id: UUID, title: String, user: UserEntity, description: String?, instructions: String, servings: String, ingredients: List<IngredientEntity>, createdAt: Date, updatedAt: Date?)
+    }
+
+    class UserEntity {
+        UUID id
+        String name
+        String username
+        String email
+        String password
+        Boolean active
+        Date createdAt
+        Date updatedAt
+        --
+        +UserEntity(id: UUID, name: String, username: String, email: String, password: String, active: Boolean, createdAt: Date, updatedAt: Date?)
+    }
+
+    IngredientEntity "1" --> "*" RecipeEntity : recipe
+    RecipeEntity "1" --> "*" UserEntity : user
+    RecipeEntity "1" --> "*" IngredientEntity : ingredients
+}
+@enduml

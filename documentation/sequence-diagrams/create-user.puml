@@ -1,0 +1,15 @@
+@startuml
+actor User
+participant "UserController" as UserController
+participant "CreateUserUseCase" as UserService
+participant "UserDataProvider" as IUserDataProvider
+
+User -> UserController: POST /users (CreateUserRequestDto)
+UserController -> UserService: execute(CreateUserRequestDto)
+UserService -> IUserDataProvider: findUserByUsername(username)
+UserService -> IUserDataProvider: findUserByEmail(username)
+UserService -> IUserDataProvider: insert(User)
+IUserDataProvider -> UserService: User
+UserService --> UserController: User
+UserController --> User: 201 Created (User)
+@enduml

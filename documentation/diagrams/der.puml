@@ -1,0 +1,43 @@
+@startuml
+entity "users" {
+    *id: uuid <<PK>>
+    *name: varchar(100)
+    *username: varchar(50)
+    *email: varchar(200)
+    *password: varchar(100)
+    *active: bool
+    *created_at: timestamp
+    updated_at: timestamp
+    --
+    idx_users_username
+    idx_users_email
+}
+
+entity "recipes" {
+    *id: uuid <<PK>>
+    *title: varchar(150)
+    *user_id: uuid <<FK>>
+    description: text
+    *instructions: text
+    servings: text
+    *created_at: timestamp
+    updated_at: timestamp
+    --
+    fk_recipes_user
+}
+
+entity "ingredients" {
+    *id: uuid <<PK>>
+    *recipe_id: uuid <<FK>>
+    *value: numeric(19, 2)
+    *unit: varchar(30)
+    *type: varchar(120)
+    *created_at: timestamp
+    updated_at: timestamp
+    --
+    fk_ingredients_recipe
+}
+
+users ||--o{ recipes: "fk_recipes_user"
+recipes ||--o{ ingredients: "fk_ingredients_recipe"
+@enduml

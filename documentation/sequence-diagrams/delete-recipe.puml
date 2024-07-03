@@ -1,0 +1,12 @@
+@startuml
+actor User
+participant "RecipeController" as RecipeController
+participant "DeleteRecipeUseCase" as DeleteRecipeUseCase
+participant "LoadUserByUsernameUseCase" as LoadUserByUsernameUseCase
+
+User -> RecipeController: DELETE /recipes/{id}
+RecipeController -> LoadUserByUsernameUseCase: execute(authentication.name)
+RecipeController -> DeleteRecipeUseCase: execute(id, loggedUser)
+DeleteRecipeUseCase --> RecipeController: 201 No Content
+RecipeController --> User: 201 No Content
+@enduml

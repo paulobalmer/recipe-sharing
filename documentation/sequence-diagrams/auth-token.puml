@@ -1,0 +1,12 @@
+@startuml
+actor User
+participant "AuthenticationController" as Auth
+participant "AuthenticationManager" as AuthService
+participant "JwtUtil" as JwtUtil
+
+User -> Auth: POST /auth/token (LoginRequest)
+Auth -> AuthService: authenticate(credentials)
+Auth -> JwtUtil: generateToken(username)
+AuthService --> Auth: AuthResponse
+Auth --> User: 200 OK (AuthResponse)
+@enduml

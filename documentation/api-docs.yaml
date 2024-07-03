@@ -1,0 +1,524 @@
+openapi: 3.0.1
+info:
+  title: Recipes API
+  description: |
+    The Recipes API service provides mechanisms to manage and share Recipes
+  version: 1.0.0
+servers:
+- url: http://localhost:8081/api/v1
+  description: Generated server url
+paths:
+  /recipes/{id}:
+    get:
+      tags:
+      - recipe-controller
+      description: This operation retrives a specify recipe by provided id from the
+        system.
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "404":
+          description: Recipe was not found
+          content:
+            application/json: {}
+        "200":
+          description: Recipe was retrived successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecipeDto"
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - recipe-controller
+      description: This operation updates a specify recipe in the system.
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRecipeRequestDto"
+        required: true
+      responses:
+        "200":
+          description: Recipe was updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecipeDto"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - recipe-controller
+      description: This operation removes a specify recipe in the system.
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "201":
+          description: Recipe was removed successfully
+          content:
+            application/json: {}
+      security:
+      - bearerAuth: []
+  /users:
+    post:
+      tags:
+      - user-controller
+      description: This operation creates a user account in the system.
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequestDto"
+        required: true
+      responses:
+        "400":
+          description: Same mandatory field is missing or null
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "201":
+          description: User account was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateUserResponseDto"
+        "422":
+          description: User with same username or email address already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StandardError"
+  /recipes:
+    get:
+      tags:
+      - recipe-controller
+      description: This operation searchs a recipe in the system.
+      operationId: listAll
+      parameters:
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: Returns a list of recipes in the system
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecipePageDto"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - recipe-controller
+      description: This operation creates a recipe in the system.
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRecipeRequestDto"
+        required: true
+      responses:
+        "201":
+          description: Recipe was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecipeDto"
+        "400":
+          description: Same mandatory field is missing or null
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+      security:
+      - bearerAuth: []
+  /auth/token:
+    post:
+      tags:
+      - authentication-controller
+      description: Operation to perform login and get a access token in platform.
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "401":
+          description: Access denied in the platform
+          content:
+            application/json: {}
+        "200":
+          description: User account was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /recipes/recommendation:
+    get:
+      tags:
+      - recipe-controller
+      description: This operation gets a recommendation of a recipe regarding the
+        weather in some specify region
+      operationId: getRecommendation
+      parameters:
+      - name: t1
+        in: query
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: t2
+        in: query
+        required: false
+        schema:
+          type: number
+          format: double
+      responses:
+        "200":
+          description: Recipe recommendation was retrived successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecipeDto"
+        "404":
+          description: No suitable recipes found for the current weather
+          content:
+            application/json: {}
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    CreateRecipeRequestDto:
+      required:
+      - ingredients
+      - instructions
+      - servings
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 150
+          minLength: 2
+          type: string
+        description:
+          type: string
+        instructions:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/IngredientDto"
+        servings:
+          type: string
+    IngredientDto:
+      required:
+      - type
+      - unit
+      - value
+      type: object
+      properties:
+        value:
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+        unit:
+          type: string
+          enum:
+          - g
+          - kg
+          - ml
+          - l
+          - pc
+          - tsp
+          - tbsp
+          - pinch
+        type:
+          maxLength: 120
+          minLength: 2
+          type: string
+    RecipeDto:
+      required:
+      - id
+      - ingredients
+      - instructions
+      - servings
+      - title
+      - user
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        user:
+          $ref: "#/components/schemas/UserDto"
+        description:
+          type: string
+        instructions:
+          type: string
+        servings:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/IngredientDto"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    UserDto:
+      required:
+      - active
+      - id
+      - name
+      - username
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        name:
+          type: string
+        active:
+          type: boolean
+    CreateUserRequestDto:
+      required:
+      - email
+      - name
+      - password
+      - username
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 5
+          type: string
+        username:
+          maxLength: 20
+          minLength: 5
+          type: string
+        email:
+          type: string
+        password:
+          maxLength: 35
+          minLength: 8
+          type: string
+    FieldMessage:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        message:
+          type: string
+    ValidationError:
+      required:
+      - errors
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        msg:
+          type: string
+          writeOnly: true
+        timeStamp:
+          type: integer
+          format: int64
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/FieldMessage"
+    CreateUserResponseDto:
+      required:
+      - active
+      - id
+      - name
+      - username
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        name:
+          type: string
+        active:
+          type: boolean
+    StandardError:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type: string
+        timeStamp:
+          type: integer
+          format: int64
+    LoginRequest:
+      required:
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          maxLength: 20
+          minLength: 5
+          type: string
+        password:
+          maxLength: 35
+          minLength: 8
+          type: string
+    AuthResponse:
+      required:
+      - accessToken
+      - expires_in
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+        accessToken:
+          type: string
+        expires_in:
+          type: integer
+          format: int64
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          type: array
+          items:
+            $ref: "#/components/schemas/SortObject"
+        unpaged:
+          type: boolean
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+    RecipePageDto:
+      required:
+      - content
+      - empty
+      - first
+      - last
+      - number
+      - numberOfElements
+      - pageable
+      - size
+      - sort
+      - totalElements
+      - totalPages
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/RecipeDto"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        first:
+          type: boolean
+        sort:
+          type: object
+        numberOfElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        number:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        direction:
+          type: string
+        nullHandling:
+          type: string
+        ascending:
+          type: boolean
+        property:
+          type: string
+        ignoreCase:
+          type: boolean
