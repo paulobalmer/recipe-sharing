@@ -1,6 +1,5 @@
 package net.azeti.challenge.recipe.configuration
 
-import jakarta.servlet.http.HttpServletResponse
 import net.azeti.challenge.recipe.core.security.UserDetailsServiceImpl
 import net.azeti.challenge.recipe.core.security.jwt.JwtTokenFilter
 import org.springframework.beans.factory.annotation.Autowired
@@ -66,6 +65,10 @@ class SecurityConfiguration(
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests {
+            it.requestMatchers("/swagger-ui.html").permitAll()
+            it.requestMatchers("/swagger-ui/**").permitAll()
+            it.requestMatchers("/api-docs/**").permitAll()
+            it.requestMatchers("/api-docs.yaml").permitAll()
             it.requestMatchers("/auth/token").permitAll()
             it.requestMatchers(HttpMethod.POST, "/users").permitAll()
             it.anyRequest().authenticated()
