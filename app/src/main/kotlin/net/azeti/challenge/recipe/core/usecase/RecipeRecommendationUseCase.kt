@@ -6,6 +6,7 @@ import net.azeti.challenge.recipe.core.domain.Recipe
 import net.azeti.challenge.recipe.dataprovider.rest.mapper.RecipeEntityMapper
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.BusinessException
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.ObjectNotFoundException
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -23,9 +24,13 @@ class RecipeRecommendationUseCase(
     val mapper: RecipeEntityMapper
 ) {
 
+    private val logger = LoggerFactory.getLogger(this.javaClass)
+
     fun execute(t1: Double?, t2: Double?) : Recipe {
         val temperatureThresholdHigh = t1 ?: recipeProperties.hotRecipes.temperature
         val temperatureThresholdLow = t2 ?: recipeProperties.coldRecipes.temperature
+
+        logger.info("Considering t1 = $t1 and t2 = $t2")
 
         val weatherApiUrl = "${recipeProperties.weather.api.endpoint}/${recipeProperties.weather.api.location}?unitGroup=${recipeProperties.weather.api.units}&key=${recipeProperties.weather.api.key}&contentType=json"
         val response = restTemplate.getForEntity(weatherApiUrl, Map::class.java)
@@ -36,7 +41,8 @@ class RecipeRecommendationUseCase(
         val hours = currentHourData["hours"] as List<Map<*, *>>
         val currentHourTemp = hours.find { it["datetime"] == currentHour }?.get("temp") as? Double
             ?: return throw BusinessException("Current hour temperature data not available")
-        println("currentHourTemp $currentHourTemp")
+        logger.info("Current temperature in ${recipeProperties.weather.api.location} is $currentHourTemp °C")
+
         val recipes = recipeDataProvider.listAll()
         val filteredRecipes = recipes.filter { recipe ->
             val isHotRecipe = recipeProperties.hotRecipes.keywords.any { word -> recipe?.servings?.contains(word, ignoreCase = true) == true ||

@@ -4,6 +4,7 @@ import net.azeti.challenge.recipe.core.dataprovider.IRecipeDataProvider
 import net.azeti.challenge.recipe.core.domain.Recipe
 import net.azeti.challenge.recipe.core.domain.User
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.BusinessException
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -12,9 +13,12 @@ class CreateRecipeUseCase(
     val recipeDataProvider : IRecipeDataProvider,
 ) {
 
+    private val logger = LoggerFactory.getLogger(this.javaClass)
+
     fun execute(recipe: Recipe, user: User?) : Recipe {
 
         if (user == null) {
+            logger.error("User must not be null")
             throw BusinessException("User must not be null")
         }
 
@@ -31,6 +35,7 @@ class CreateRecipeUseCase(
             }
             return recipeDataProvider.save(recipeToSave, recipe.ingredients)
         }
+        logger.error("There are no ingredients in recipe")
         throw BusinessException("There are no ingredients in recipe")
 
     }

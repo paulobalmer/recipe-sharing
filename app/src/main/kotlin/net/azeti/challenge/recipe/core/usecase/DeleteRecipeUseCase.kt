@@ -3,6 +3,7 @@ package net.azeti.challenge.recipe.core.usecase
 import net.azeti.challenge.recipe.core.dataprovider.IRecipeDataProvider
 import net.azeti.challenge.recipe.core.domain.User
 import net.azeti.challenge.recipe.entrypoint.rest.errorhandler.exception.BusinessException
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -10,6 +11,8 @@ import java.util.*
 class DeleteRecipeUseCase(
     val recipeDataProvider : IRecipeDataProvider,
 ) {
+    private val logger = LoggerFactory.getLogger(this.javaClass)
+
     fun execute(id: UUID, user: User) {
         val existingRecipe = recipeDataProvider.getById(id)
             ?: throw BusinessException("Recipe not found")
